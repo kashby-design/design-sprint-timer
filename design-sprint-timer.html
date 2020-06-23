@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Design Timer</title>
+  </head>
+  <body>
+    <style>
+      :root {
+        --background: #eee;
+        --filler: #f15854;
+        --percentage: 0%;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      #form {
+        background-color: #eee;
+        display: grid;
+        grid-gap: 1em;
+        padding: 1em;
+        max-width: 40ch;
+      }
+
+      input {
+        border: 1px solid silver;
+        display: block;
+        font-size: 16px;
+        margin-bottom: 10px;
+        padding: 5px;
+        width: 100%;
+      }
+
+      #form button {
+        background-color: #bbbbf2;
+        border: 2px solid currentColor;
+        border-radius: 0.25em;
+        cursor: pointer;
+        font-size: inherit;
+        line-height: 1.4em;
+        padding: 0.25em 1em;
+        max-width: 20ch;
+      }
+
+      #form button:hover {
+        background-color: lavender;
+      }
+
+      #chart-container {
+        width: 800px;
+        /*   transform: scaleX(-1); */
+      }
+
+      footer {
+        margin-top: 3em;
+        padding-top: 1.5em;
+        border-top: 1px solid lightgrey;
+      }
+
+      .chart {
+        background: conic-gradient(var(--filler) var(--percentage), var(--background) var(--percentage), var(--background) 0);
+        border-radius: 50%;
+        width: 50%;
+        height: 0;
+        padding-top: 50%;
+        margin-bottom: 2em;
+      }
+    </style>
+
+    <div id="chart-container">
+      <div class="chart"></div>
+    </div>
+
+    <div id="form">
+      <label>
+        Enter # of Minutes
+        <input id="timeInput" name="time" type="number" max="60" required value="0" />
+      </label>
+      <button id="submit-dream" onclick="enterTime(time)">Set Timer</button>
+    </div>
+
+    <script>
+      const dreamsForm = document.querySelector("form");
+      const submitButton = document.getElementById("submit-dream");
+
+      let timeInput = document.getElementById("timeInput");
+      let timePercentage;
+      let time;
+
+      function setTime(time) {
+        //convert the time into a percentage
+        timePercentage = Math.round((time / 60) * 100);
+
+        //set the variable to correct percentage
+        document.documentElement.style.setProperty("--percentage", timePercentage + "%");
+      }
+
+      function enterTime(time) {
+        //get the inputed time from user
+        time = parseInt(timeInput.value);
+        setTime(time);
+
+        setInterval(function() {
+          time--;
+          setTime(time);
+        }, 60000);
+      }
+    </script>
+  </body>
+</html>
